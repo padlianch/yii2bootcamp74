@@ -51,8 +51,13 @@ class Kelas extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getTahunAjaran()
+    public function getThnAjaran()
     {
         return $this->hasOne(TahunAjaran::class, ['id' => 'id_tahun_ajaran']);
+    }
+
+    public function getTingkatan()
+    {
+        return $this->hasOne(Tingkatan::class, ['id' => 'id_tingkat_kelas']);
     }
 }
