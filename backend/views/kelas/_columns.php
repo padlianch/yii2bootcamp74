@@ -36,6 +36,17 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'header'=>'Tahun',
+        'value' => function ($model) {
+            $text = $model->thnAjaran->tahun_mulai;
+            $text .= ' - ';
+            $text .= $model->getThnAjaran()->one()->tahun_selesai;
+            
+            return $text;
+        }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'thnAjaran.tahun_mulai',
     ],
     [
