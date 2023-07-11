@@ -26,7 +26,7 @@ class KelasController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','detail'],
 						'allow' => true,
 						'roles' => [],
 					],
@@ -53,6 +53,16 @@ class KelasController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionDetail($id)
+    {    
+        $model = Kelas::find()
+                    ->where(['id'=>$id])
+                    ->one();
+        return $this->render('detail', [
+            'model' => $model,
         ]);
     }
 

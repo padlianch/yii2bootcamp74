@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Url;
-
+use  yii\helpers\Html;
 return [
     [
         'class' => 'kartik\grid\CheckboxColumn',
@@ -56,6 +56,15 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'tingkatan.nama_tingkatan',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'format'=>'raw',
+        'header'=>'Detail',
+        'value' => function ($model) {
+            $link = Html::a('Detail', ['kelas/detail', 'id'=>$model->id]);
+            return $link;
+        }
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
