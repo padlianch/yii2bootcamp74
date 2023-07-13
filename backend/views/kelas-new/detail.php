@@ -19,3 +19,11 @@ $jlh_kelas = $data->getKelasSiswa()->count()??0;
         <td></td>
     </tr>
 </table>
+
+<?php
+foreach ($siswa as $key => $value) {
+    echo '- ';
+    echo $value->nama_siswa;
+    echo '<br>';
+}
+?>

@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use common\models\Siswa;
 
 /**
  * KelasNewController implements the CRUD actions for Kelas model.
@@ -59,12 +60,15 @@ class KelasNewController extends Controller
     public function actionDetail($id)
     {
         $model = Kelas::find()->where(['id'=>$id])->one();
+        $siswa = Siswa::find()->all();
+
         return $this->render('detail', [
-            'data' => $model
+            'data' => $model,
+            'siswa' => $siswa
         ]);
     }
 
-    
+
 
 
     /**
