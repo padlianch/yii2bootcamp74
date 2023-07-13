@@ -60,4 +60,14 @@ class Kelas extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Tingkatan::class, ['id' => 'id_tingkat_kelas']);
     }
+
+    public function getWaliKelas()
+    {
+        return $this->hasOne(Guru::class, ['id' => 'id_wali_kelas']);
+    }
+
+    public function getKelasSiswa()
+    {
+        return $this->hasMany(KelasSiswa::class, ['id_kelas' => 'id_wali_kelas']);
+    }
 }
