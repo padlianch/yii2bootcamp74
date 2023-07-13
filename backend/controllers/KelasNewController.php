@@ -61,7 +61,12 @@ class KelasNewController extends Controller
     public function actionDetail($id)
     {
         $model = Kelas::find()->where(['id'=>$id])->one();
-        $siswa = Siswa::find()->all();
+        // $siswa = Siswa::find()->all();
+        $siswa = Siswa::find()
+        ->select(['siswa.*']) 
+        ->leftJoin('kelas_siswa', 'kelas_siswa.id_siswa = siswa.id')
+        ->where(['kelas_siswa.id_kelas'=>$id])
+        ->all();
 
         return $this->render('detail', [
             'data' => $model,
