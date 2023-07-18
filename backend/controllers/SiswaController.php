@@ -110,7 +110,7 @@ class SiswaController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
-                $model->setKelas($id_kelas);
+                $model->setKelasSiswa($id_kelas);
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new Siswa",
@@ -139,7 +139,7 @@ class SiswaController extends Controller
                 // $ModelKelasSiswa->id_siswa = $model->id;
                 // $ModelKelasSiswa->id_kelas = $id_kelas;
                 // $ModelKelasSiswa->save();
-                $model->setKelas($id_kelas);
+                $model->setKelasSiswa($id_kelas);
                 
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {

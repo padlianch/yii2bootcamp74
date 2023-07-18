@@ -49,7 +49,7 @@ class Siswa extends \yii\db\ActiveRecord
         ];
     }
 
-    public function setKelas($id_kelas){
+    public function setKelasSiswa($id_kelas){
         $ModelKelasSiswa = new KelasSiswa();
         $ModelKelasSiswa->id_siswa = $this->id;
         $ModelKelasSiswa->id_kelas = $id_kelas;
