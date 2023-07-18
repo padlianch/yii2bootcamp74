@@ -13,6 +13,7 @@ use yii\helpers\Html;
 use yii\filters\AccessControl;
 use common\models\Siswa;
 use yii\debug\models\Router;
+use backend\models\SiswaSearch;
 
 /**
  * KelasNewController implements the CRUD actions for Kelas model.
@@ -68,9 +69,16 @@ class KelasNewController extends Controller
         ->where(['kelas_siswa.id_kelas'=>$id])
         ->all();
 
+
+        $searchModel = new SiswaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andFilterWhere(['kelas_siswa.id_kelas'=>$id]);
+
         return $this->render('detail', [
             'data' => $model,
-            'siswa' => $siswa
+            'siswa' => $siswa,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

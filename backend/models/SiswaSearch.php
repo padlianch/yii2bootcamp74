@@ -41,7 +41,8 @@ class SiswaSearch extends Siswa
      */
     public function search($params)
     {
-        $query = Siswa::find();
+        $query = Siswa::find()
+        ->leftJoin('kelas_siswa', 'kelas_siswa.id_siswa = siswa.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
