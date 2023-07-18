@@ -3,24 +3,19 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Kelas;
-use backend\models\KelasSearch;
+use common\models\Guru;
+use backend\models\GuruSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
-use common\models\Siswa;
-use yii\debug\models\Router;
-use backend\models\SiswaSearch;
-use common\models\Guru;
-use backend\models\GuruSearch;
 
 /**
- * KelasNewController implements the CRUD actions for Kelas model.
+ * GuruController implements the CRUD actions for Guru model.
  */
-class KelasNewController extends Controller
+class GuruController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,7 +26,7 @@ class KelasNewController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete', 'detail', 'pilih-guru'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
 						'allow' => true,
 						'roles' => [],
 					],
@@ -47,12 +42,12 @@ class KelasNewController extends Controller
 	}
 
     /**
-     * Lists all Kelas models.
+     * Lists all Guru models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new KelasSearch();
+        $searchModel = new GuruSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -61,34 +56,9 @@ class KelasNewController extends Controller
         ]);
     }
 
-    public function actionDetail($id)
-    {
-        $model = Kelas::find()->where(['id'=>$id])->one();
-        // $siswa = Siswa::find()->all();
-        $siswa = Siswa::find()
-        ->select(['siswa.*']) 
-        ->leftJoin('kelas_siswa', 'kelas_siswa.id_siswa = siswa.id')
-        ->where(['kelas_siswa.id_kelas'=>$id])
-        ->all();
-
-
-        $searchModel = new SiswaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->andFilterWhere(['kelas_siswa.id_kelas'=>$id]);
-
-        return $this->render('detail', [
-            'data' => $model,
-            'siswa' => $siswa,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
-
 
     /**
-     * Displays a single Kelas model.
+     * Displays a single Guru model.
      * @param integer $id
      * @return mixed
      */
@@ -98,7 +68,7 @@ class KelasNewController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Kelas #".$id,
+                    'title'=> "Guru #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -113,7 +83,7 @@ class KelasNewController extends Controller
     }
 
     /**
-     * Creates a new Kelas model.
+     * Creates a new Guru model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -121,7 +91,7 @@ class KelasNewController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Kelas();  
+        $model = new Guru();  
 
         if($request->isAjax){
             /*
@@ -130,7 +100,7 @@ class KelasNewController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Kelas",
+                    'title'=> "Create new Guru",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -141,15 +111,15 @@ class KelasNewController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Kelas",
-                    'content'=>'<span class="text-success">Create Kelas success</span>',
+                    'title'=> "Create new Guru",
+                    'content'=>'<span class="text-success">Create Guru success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Kelas",
+                    'title'=> "Create new Guru",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -174,7 +144,7 @@ class KelasNewController extends Controller
     }
 
     /**
-     * Updates an existing Kelas model.
+     * Updates an existing Guru model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -192,7 +162,7 @@ class KelasNewController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Kelas #".$id,
+                    'title'=> "Update Guru #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -202,7 +172,7 @@ class KelasNewController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Kelas #".$id,
+                    'title'=> "Guru #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -211,7 +181,7 @@ class KelasNewController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Kelas #".$id,
+                    'title'=> "Update Guru #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -234,7 +204,7 @@ class KelasNewController extends Controller
     }
 
     /**
-     * Delete an existing Kelas model.
+     * Delete an existing Guru model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -262,7 +232,7 @@ class KelasNewController extends Controller
     }
 
      /**
-     * Delete multiple existing Kelas model.
+     * Delete multiple existing Guru model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -293,44 +263,18 @@ class KelasNewController extends Controller
     }
 
     /**
-     * Finds the Kelas model based on its primary key value.
+     * Finds the Guru model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Kelas the loaded model
+     * @return Guru the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Kelas::findOne($id)) !== null) {
+        if (($model = Guru::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function actionPilihGuru()
-    {    
-        $searchModel = new GuruSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "Pilih Guru",
-                    'content'=>$this->renderAjax('pilih-guru', [
-                        'searchModel' => $searchModel,
-                        'dataProvider' => $dataProvider,
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
-                ];    
-        }else{
-            return $this->render('pilih-guru', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-
-        
     }
 }
