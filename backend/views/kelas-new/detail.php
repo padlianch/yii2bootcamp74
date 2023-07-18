@@ -5,6 +5,11 @@ use kartik\grid\GridView;
 use kartik\icons\Icon;
 Icon::map($this);
 
+use yii\bootstrap5\Modal;
+use cangak\ajaxcrud\CrudAsset; 
+CrudAsset::register($this);
+
+
 $jlh_kelas = $data->getKelasSiswa()->count()??0;
 ?>
 
@@ -57,7 +62,7 @@ $jlh_kelas = $data->getKelasSiswa()->count()??0;
             'columns' => require(__DIR__.'/_columns_siswa.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i>', ['create'],
+                    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i>', ['siswa/create','id_kelas'=>$data->id],
                     ['role'=>'modal-remote','title'=> 'Tambah Siswas','class'=>'btn btn-default']).
                     Html::a('<i class="fas fa fa-sync" aria-hidden="true"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
@@ -89,3 +94,12 @@ $jlh_kelas = $data->getKelasSiswa()->count()??0;
         ])?>
     </div>
 </div>
+<?php Modal::begin([
+   "options" => [
+    "id"=>"ajaxCrudModal",
+    "tabindex" => false // important for Select2 to work properly
+],
+   "id"=>"ajaxCrudModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>

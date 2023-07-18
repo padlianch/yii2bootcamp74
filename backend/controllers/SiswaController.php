@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Siswa;
 use backend\models\SiswaSearch;
+use common\models\KelasSiswa;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -88,7 +89,7 @@ class SiswaController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id_kelas = null)
     {
         $request = Yii::$app->request;
         $model = new Siswa();  
@@ -109,6 +110,7 @@ class SiswaController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                $model->setKelas($id_kelas);
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new Siswa",
@@ -133,6 +135,12 @@ class SiswaController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
+                // $ModelKelasSiswa = new KelasSiswa();
+                // $ModelKelasSiswa->id_siswa = $model->id;
+                // $ModelKelasSiswa->id_kelas = $id_kelas;
+                // $ModelKelasSiswa->save();
+                $model->setKelas($id_kelas);
+                
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [

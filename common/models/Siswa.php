@@ -48,4 +48,11 @@ class Siswa extends \yii\db\ActiveRecord
             'alamat' => 'Alamat',
         ];
     }
+
+    public function setKelas($id_kelas){
+        $ModelKelasSiswa = new KelasSiswa();
+        $ModelKelasSiswa->id_siswa = $this->id;
+        $ModelKelasSiswa->id_kelas = $id_kelas;
+        $ModelKelasSiswa->save();
+    }
 }
