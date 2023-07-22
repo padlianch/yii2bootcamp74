@@ -31,7 +31,7 @@ class KelasNewController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete', 'detail', 'pilih-guru'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete', 'detail', 'pilih-guru', 'pilih-guru-proses'],
 						'allow' => true,
 						'roles' => [],
 					],
@@ -308,7 +308,7 @@ class KelasNewController extends Controller
         }
     }
 
-    public function actionPilihGuru()
+    public function actionPilihGuru($id_kelas)
     {    
         $searchModel = new GuruSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -321,6 +321,7 @@ class KelasNewController extends Controller
                     'content'=>$this->renderAjax('pilih-guru', [
                         'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
+                        'id_kelas' => $id_kelas,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
                 ];    
@@ -328,7 +329,31 @@ class KelasNewController extends Controller
             return $this->render('pilih-guru', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
+                'id_kelas' => $id_kelas,
             ]);
+        }
+
+        
+    }
+
+    public function actionPilihGuruProses($id_guru, $id_kelas)
+    {    
+        $model = Kelas::find()->where(['id'=>$id_kelas])->one();
+        $model->id_wali_kelas = $id_guru;
+        $model->save();
+
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                    'forceReload'=>'#guru-pjax',
+                    'title'=> "Pilih Guru",
+                    'content'=>'pilih berhasil',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
+                ];    
+        }else{
+            return $this->redirect(['detail', 'id' => $id_kelas]);
+            // kelas-new%2Fpilih-guru&id_kelas=2
         }
 
         

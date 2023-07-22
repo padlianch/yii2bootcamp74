@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 return [
     [
@@ -29,6 +30,15 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'alamat',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'format'=>'raw',
+        'header'=>'Detail',
+        'value' => function ($model) use ($id_kelas) {
+            $link = Html::a('Pilih', ['kelas-new/pilih-guru-proses', 'id_guru' => $model->id, 'id_kelas'=>$id_kelas], ['role'=>'modal-remote']) ;
+            return $link;
+        }
     ],
     // [
     //     'class' => 'kartik\grid\ActionColumn',

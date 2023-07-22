@@ -8,9 +8,12 @@ Icon::map($this);
 use yii\bootstrap5\Modal;
 use cangak\ajaxcrud\CrudAsset; 
 CrudAsset::register($this);
+use yii\widgets\Pjax;
 
 
 $jlh_kelas = $data->getKelasSiswa()->count()??0;
+
+Pjax::begin(['id'=>'guru-pjax']);
 ?>
 
 <table width=100%>
@@ -22,7 +25,7 @@ $jlh_kelas = $data->getKelasSiswa()->count()??0;
     <tr>
         <td>Ruangan : <?= $data->nama_kelas ?></td>
         <td></td>
-        <td>Wali Kelas : <?= $data->waliKelas->nama_guru??Html::a('-pilih-', ['pilih-guru','id_kelas'=>$data->id],
+        <td>Wali Kelas : <?= Html::a($data->waliKelas->nama_guru??'-pilih-', ['pilih-guru','id_kelas'=>$data->id],
                     ['role'=>'modal-remote','title'=> 'Pilih Guru','class'=>'btn btn-default']) ?></td>
     </tr>
     <tr>
@@ -31,6 +34,10 @@ $jlh_kelas = $data->getKelasSiswa()->count()??0;
         <td></td>
     </tr>
 </table>
+<?php
+Pjax::end();
+
+?>
 
 <table width="100%" border="1">
         <tr>
