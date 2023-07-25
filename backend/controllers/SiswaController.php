@@ -103,7 +103,7 @@ class SiswaController extends Controller
                 return [
                     'title'=> "Create new Siswa",
                     'content'=>$this->renderAjax('create', [
-                        'model' => $model,
+                        'model' => $model, 
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
